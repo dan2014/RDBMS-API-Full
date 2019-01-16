@@ -12,7 +12,7 @@ module.exports = {
         return query;
     },
     getStudents:function(id){
-        const query = db("students").select().where("cohortID",id).first();
+        const query = db("students").select().where("cohortID",id);
         return query;
     },
     insert:function(name){
@@ -24,7 +24,23 @@ module.exports = {
         return query;
     },
     delete:function(id){
-        const query =  db("cohorts").where(id).delete()
+        const query =  db("cohorts").where(id).delete();
+        return query;
+    },
+    getAllStudents:function(){
+        const query = db.from("students").innerJoin('cohorts','students.cohortID','cohorts.id');
+        return query;
+    },
+    insertStudent:function(cohortID,studentName){
+        const query =  db("students").insert({cohortID,studentName});
+        return query;
+    },
+    updateStudent:function(id,body){
+        const query =  db("students").where({id}).update({cohortID:body.cohortID,studentName:body.studentName});
+        return query;
+    },
+    deleteStudent:function(id){
+        const query =  db("students").where({id}).delete();
         return query;
     }
 }
